@@ -2,6 +2,8 @@
 
 To reproduce the graph results in the report:
 
+> **Note:** These commands could take up to 5-10 minutes to run.
+
 ### Hat Tiling
 ```bash
 python hat_tile_percolation_final.py --r 4 --t 200 --Lmin 30 --Lmax 150 --Lstep 20
