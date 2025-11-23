@@ -1,3 +1,17 @@
+# Reproduce Graph Results
+
+To reproduce the graph results in the report:
+
+### Hat Tiling
+```bash
+python hat_tile_percolation_final.py --r 4 --t 200 --Lmin 30 --Lmax 150 --Lstep 20
+```
+
+### Penrose Rhombus Tiling
+```bash
+python penrose_rhombus_percolation_final.py -s 10 --Lmin 20 --Lmax 120 --Lstep 10 -t 1000
+```
+
 # Percolation Simulation on Aperiodic and Periodic Tilings
 
 This project investigates percolation thresholds on various tiling structures, including the aperiodic Penrose Rhombus and Hat tilings, as well as standard periodic Square and Triangular lattices.
