@@ -102,22 +102,37 @@ class PenroseTiling:
 
     def create_initial_tiles(self):
         """
-        Creating the initial "star" pattern by using 10 thin triangles to form 5 triangles that are placed adjacent to use other 
+        Creating the initial "star" pattern by using 10 thin triangles arranged in a 5-pointed star shape.
+        Each pair of triangles forms a thin rhombus pointing outward to create the star points.
+        This creates a star pattern instead of a regular decagon.
         """
         initial_scale = self.scale * 0.5
         triangles = []
 
-        # Loops 10 times
+        # For a 5-pointed star pattern, arrange triangles so pairs form rhombi pointing outward
+        # Star points are at: 90°, 18°, -54°, -126°, 162° (π/2, π/10, -3π/10, -7π/10, 9π/10)
+        # Each star point uses 2 triangles forming a rhombus
+        
         for i in range(self.base * 2):
-            v2 = cmath.rect(initial_scale, (2*i - 1) * math.pi / (self.base * 2))
-            v3 = cmath.rect(initial_scale, (2*i + 1) * math.pi / (self.base * 2))
-
-            """
-            For every second triangle, "swaps" the coordinates for v2 and v3 to create a reflection.
-            This creates 2 different triangle "halves" for the rhombus, each half have their own reflective rules
-            https://www.chiark.greenend.org.uk/~sgtatham/quasiblog/aperiodic-tilings/
-            """
-            if i % 2 == 0:
+            # Which star point (0-4) and which triangle in pair (0 or 1)
+            star_idx = i // 2
+            is_first_triangle = (i % 2 == 0)
+            
+            # Star point direction: start at 90° (π/2), rotate by -72° (2π/5) for each point
+            star_direction = math.pi / 2 - star_idx * 2 * math.pi / self.base
+            
+            # Thin triangle angle spread: 36° = π/5
+            angle_spread = math.pi / self.base
+            
+            if is_first_triangle:
+                # First triangle of pair: points toward star tip
+                v2 = cmath.rect(initial_scale, star_direction - angle_spread)
+                v3 = cmath.rect(initial_scale, star_direction + angle_spread)
+            else:
+                # Second triangle: mirrored to complete the rhombus pointing outward
+                v2 = cmath.rect(initial_scale, star_direction + angle_spread)
+                v3 = cmath.rect(initial_scale, star_direction - angle_spread)
+                # Swap to create proper reflection
                 v2, v3 = v3, v2
 
             triangles.append(PenroseTriangle("thin", 0, v2, v3))
